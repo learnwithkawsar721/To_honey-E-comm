@@ -11,7 +11,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('admin') }}/assets/images/favicon.ico">
-
+    <link rel="stylesheet" href="{{ asset('admin/sweetalert2.min.css') }}">
+    <!-- Table datatable css -->
+    <link href="{{ asset('admin') }}/assets/libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('admin') }}/assets/libs/datatables/buttons.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('admin') }}/assets/libs/datatables/fixedHeader.bootstrap4.min.html" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('admin') }}/assets/libs/datatables/responsive.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('admin') }}/assets/libs/datatables/scroller.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
     <!-- Plugins css-->
     <link href="{{ asset('admin') }}/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
@@ -300,6 +311,13 @@
                         </li>
 
                         <li>
+                            <a href="{{ route('category.index') }}" class="waves-effect">
+                                <i class="mdi mdi-home"></i>
+                                <span> Category </span>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="javascript: void(0);" class="waves-effect">
                                 <i class="mdi mdi-email"></i>
                                 <span> Mail </span>
@@ -398,9 +416,15 @@
 
     <!-- Dashboard init JS -->
     <script src="{{ asset('admin') }}/assets/js/pages/dashboard.init.js"></script>
+    <script src="{{ asset('admin') }}/assets/libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('admin') }}/assets/js/pages/datatables.init.js"></script>
+    <script src="{{ asset('admin') }}/assets/libs/datatables/dataTables.responsive.min.js"></script>
 
     <!-- App js -->
     <script src="{{ asset('admin') }}/assets/js/app.min.js"></script>
+    <script src="{{ asset('admin/sweetalert2@11.js') }}"></script>
+
+    @yield('script')
 
 </body>
 

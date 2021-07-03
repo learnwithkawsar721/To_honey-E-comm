@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('title')
-Home
+Category
 @endsection
 @section('content')
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title">Welcome !</h4>
+            <h4 class="page-title">Category !</h4>
             <div class="page-title-right">
                 <ol class="breadcrumb p-0 m-0">
-                    <li class="breadcrumb-item"><a href="#">Moltran</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Category</li>
                 </ol>
             </div>
             <div class="clearfix"></div>
@@ -20,32 +20,72 @@ Home
 </div>
 <!-- end page title -->
 <div class="row">
-    <div class="col-md-6 col-xl-3">
-        <div class="card-box">
-            <div class="media">
-                <div class="avatar-md bg-info rounded-circle mr-2">
-                    <i class="ion-logo-usd avatar-title font-26 text-white"></i>
-                </div>
-                <div class="media-body align-self-center">
-                    <div class="text-right">
-                        <h4 class="font-20 my-0 font-weight-bold"><span data-plugin="counterup">15852</span></h4>
-                        <p class="mb-0 mt-1 text-truncate">Total Sales</p>
-                    </div>
-                </div>
+    <div class="col-md-12 col-xl-12 text-left mb-3">
+        <a href="{{ route('category.create') }}" class="btn btn-primary">Add New</a>
+    </div>
+    <div class="col-md-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                {{-- <h3 class="card-title">Responsive example</h3> --}}
             </div>
-            <div class="mt-4">
-                <h6 class="text-uppercase">Target <span class="float-right">60%</span></h6>
-                <div class="progress progress-sm m-0">
-                    <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                        aria-valuemax="100" style="width: 60%">
-                        <span class="sr-only">60% Complete</span>
-                    </div>
-                </div>
+            <div class="card-body">
+                <table id="responsive-datatable" class="table table-striped table-bordered dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $item)
+                        <tr>
+                            <td>{{ $loop->index+1 }}</td>
+                            <td>{{ $item->category_name }}</td>
+                            <td>
+                                {!! status($item->status) !!}
+                            </td>
+                            <td>
+                                <a href="{{ route('category.edit',$item->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <button value="{{ route('category.delete',$item->id) }}"
+                                    class="btn btn-sm btn-danger delete">Delete</button>
+                            </td>
+                        </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- end card-box-->
     </div>
 
 
 </div>
+@endsection
+
+@section('script')
+<script>
+    $( document ).ready(function() {
+        $('.delete').click(function(){
+           
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var val = $(this).val();
+                window.location.href = val;
+            }
+            })
+        })
+    });
+
+</script>
 @endsection

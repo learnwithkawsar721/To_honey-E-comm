@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('Admin.Category.index',[
+            'categories'=>Category::latest()->get(),
+        ]);
     }
 
     /**
@@ -25,6 +29,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('Admin.Category.create');
     }
 
     /**
@@ -35,7 +40,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        // insert data 
+        $category = new Category();
+        $category->user_id = Auth::id();
+        $category->category_name = $request->category_name;
+        $category->slug= Str::slug($request->category_name,'-').'-'.Str::random(10);
+        $category->save();
+        return redirect(route('category.index'));
     }
 
     /**
@@ -46,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('Admin.Category.show');
     }
 
     /**
@@ -57,7 +69,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('Admin.Category.edit',[
+            'category'=>$category
+        ]);
+       
     }
 
     /**
@@ -69,7 +84,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->except('_token','_method','status'));
+      
+        if($request->status){
+          $category->update([
+              'status'=>$request->status
+          ]);
+        }else{
+            $category->update([
+              'status'=>2
+          ]);
+        }
+        return redirect(route('category.index'));
     }
 
     /**
@@ -78,8 +104,13 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function delete($id)
     {
-        //
+      $category = Category::where('id',$id)->first();
+      $category->delete();
+      return back();
+
     }
+
+       
 }
